@@ -1,6 +1,8 @@
 # Life Restart
 
-English | [简体中文](./README-zh_CN.md)
+访问地址：http://restartLife.liupanlong.com 
+<br>
+第一次访问比较慢，请耐心等待一下
 
 ## Introduction
 
