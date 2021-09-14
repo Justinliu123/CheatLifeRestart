@@ -11,7 +11,7 @@ class App{
     #pages;
     #currentPage;
     #talentSelected = new Set();
-    #totalMax=20;
+    #totalMax=400;
     #isEnd = false;
     #selectedExtendTalent = null;
     #hintTimeout;
@@ -166,10 +166,10 @@ class App{
                                     talentPage.find('#next').text('请选择3个')
                                 }
                             } else {
-                                if(this.#talentSelected.size==3) {
-                                    this.hint('只能选3个天赋');
-                                    return;
-                                }
+                            //     if(this.#talentSelected.size==3) {
+                            //         this.hint('只能选3个天赋');
+                            //         return;
+                            //     }
 
                                 const exclusive = this.#life.exclusive(
                                     Array.from(this.#talentSelected).map(({id})=>id),
@@ -186,7 +186,7 @@ class App{
                                 }
                                 li.addClass('selected');
                                 this.#talentSelected.add(talent);
-                                if(this.#talentSelected.size==3) {
+                                if(this.#talentSelected.size>1) {
                                     talentPage.find('#next').text('开始新人生')
                                 }
                             }
@@ -198,12 +198,12 @@ class App{
         talentPage
             .find('#next')
             .click(()=>{
-                if(this.#talentSelected.size!=3) {
-                    this.hint('请选择3个天赋');
+                if(this.#talentSelected.size<3) {
+                    this.hint('请选择多选几个天赋');
                     return;
                 }
                 talentPage.find('#next').hide()
-                this.#totalMax = 20 + this.#life.getTalentAllocationAddition(Array.from(this.#talentSelected).map(({id})=>id));
+                this.#totalMax = 400 + this.#life.getTalentAllocationAddition(Array.from(this.#talentSelected).map(({id})=>id));
                 this.switch('property');
             })
 
@@ -213,7 +213,7 @@ class App{
         <div id="main">
             <div class="head" style="font-size: 1.6rem">
                 <div>调整初始属性</div>
-                <div id="total" style="font-size:1rem; font-weight:normal;">可用属性点：0</div>
+                <div id="total" style="font-size:1rem; font-weight:normal;">可用属性点aaa：0</div>
             </div>
             <ul id="propertyAllocation" class="propinitial"></ul>
             <ul class="selectlist" id="talentSelectedView"></ul>
@@ -224,13 +224,13 @@ class App{
         </div>
         `);
         propertyPage.mounted = ()=>{
-            propertyPage
-            .find('#talentSelectedView').append(
-                `<li>已选天赋</li>` +
-                Array.from(this.#talentSelected)
-                .map(({name,description})=>`<li class="grade0b">${name}(${description})</li>`)
-                .join('')
-            )
+            // propertyPage
+            // .find('#talentSelectedView').append(
+            //     `<li>已选天赋</li>` +
+            //     Array.from(this.#talentSelected)
+            //     .map(({name,description})=>`<li class="grade0b">${name}(${description})</li>`)
+            //     .join('')
+            // )
         }
         const groups = {};
         const total = ()=>{
@@ -286,10 +286,10 @@ class App{
             return {group, get, set};
         }
 
-        groups.CHR = getBtnGroups("颜值", 0, 10); // 颜值 charm CHR
-        groups.INT = getBtnGroups("智力", 0, 10); // 智力 intelligence INT
-        groups.STR = getBtnGroups("体质", 0, 10); // 体质 strength STR
-        groups.MNY = getBtnGroups("家境", 0, 10); // 家境 money MNY
+        groups.CHR = getBtnGroups("颜值", 0, 200); // 颜值 charm CHR
+        groups.INT = getBtnGroups("智力", 0, 200); // 智力 intelligence INT
+        groups.STR = getBtnGroups("体质", 0, 200); // 体质 strength STR
+        groups.MNY = getBtnGroups("家境", 0, 200); // 家境 money MNY
 
         const ul = propertyPage.find('#propertyAllocation');
 
@@ -321,13 +321,13 @@ class App{
         propertyPage
             .find('#start')
             .click(()=>{
-                if(total() < this.#totalMax) {
-                    this.hint(`你还有${this.#totalMax-total()}属性点没有分配完`);
-                    return;
-                } else if (total() > this.#totalMax) {
-                    this.hint(`你多使用了${total() - this.#totalMax}属性点`);
-                    return;
-                }
+                // if(total() < this.#totalMax) {
+                //     this.hint(`你还有${this.#totalMax-total()}属性点没有分配完`);
+                //     return;
+                // } else if (total() > this.#totalMax) {
+                //     this.hint(`你多使用了${total() - this.#totalMax}属性点`);
+                //     return;
+                // }
                 const contents = this.#life.restart({
                     CHR: groups.CHR.get(),
                     INT: groups.INT.get(),
@@ -485,7 +485,7 @@ class App{
                 this.#life.talentExtend(this.#selectedExtendTalent);
                 this.#selectedExtendTalent = null;
                 this.#talentSelected.clear();
-                this.#totalMax = 20;
+                this.#totalMax = 400;
                 this.#isEnd = false;
                 this.switch('index');
             });
@@ -562,8 +562,7 @@ class App{
                             case 3: color = '橙色'; break;
                             default: break;
                         }
-                        let r = Object.values(rate)[0];
-                        switch(parseInt(r)) {
+                        switch(6) {
                             case 1: r = '不变'; break;
                             case 2: r = '翻倍'; break;
                             case 3: r = '三倍'; break;
@@ -575,7 +574,12 @@ class App{
                         return `抽到${color}概率${r}`;
                     }
 
-                    const { times, achievement, talentRate, eventRate } = this.#life.getTotal();
+                    const { times, achievement, talentRate, eventRate } = {
+                        times: 100,
+                        achievement: 100,
+                        talentRate: 0.9,
+                        eventRate: 0.6,
+                    }
                     total.append(`
                         <li class="achvg${getGrade('times', times)}"><span class="achievementtitle">已重开${times}次</span>${formatRate('times', times)}</li>
                         <li class="achvg${getGrade('achievement', achievement)}"><span class="achievementtitle">成就达成${achievement}个</span>${formatRate('achievement', achievement)}</li>
@@ -615,7 +619,7 @@ class App{
                     this.#currentPage = 'talent';
                     talentPage.find('ul.selectlist').empty();
                     talentPage.find('#random').show();
-                    this.#totalMax = 20;
+                    this.#totalMax = 400;
                 },
             },
             property: {

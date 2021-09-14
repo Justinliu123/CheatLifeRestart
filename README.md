@@ -1,12 +1,12 @@
 # Life Restart
 
-<a href="https://discord.gg/U3qrf49NMQ"><img src="https://img.shields.io/discord/883382868427014255?color=%23FEE75C&label=Discord&logo=discord&logoColor=white&style=for-the-badge" /></a>
-
 English | [简体中文](./README-zh_CN.md)
 
 ## Introduction
 
-- Game Life Restart
+- 开挂人生模拟器，必开出6个橙色天赋。
+- 活到500岁的概率大幅提升。
+- 有一定概率飞升成仙
 
 ## Usage
 
@@ -57,5 +57,3 @@ node repl
 ```
 
 </details>
-
-> More instructions at [documentation](https://liferestart.syaro.io/).
