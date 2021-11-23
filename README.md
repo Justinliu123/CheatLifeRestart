@@ -1,9 +1,4 @@
 # Life Restart
-
-访问地址：http://restartLife.liupanlong.com 
-<br>
-第一次访问比较慢，请耐心等待一下
-
 ## Introduction
 
 - 开挂人生模拟器，必开出6个橙色天赋。
